@@ -19,4 +19,4 @@ jobs:
                 port: 22
                 script:
                     cd /root
-                    touch githubtest
+                    touch gbtest
