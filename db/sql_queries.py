@@ -34,6 +34,7 @@ def create_table_product(conn):
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
+    insert_products(conn)
 
 
 def create_table_user(conn):
@@ -49,6 +50,7 @@ def create_table_user(conn):
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
+    insert_users(conn)
 
 
 def insert_users(conn):
@@ -77,7 +79,7 @@ def insert_products(conn):
         conn.commit()
 
 
-def get_users(conn) -> list[User]:
+def get_users(conn):
     query = "SELECT * FROM m_danil_user;"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -86,7 +88,7 @@ def get_users(conn) -> list[User]:
             for user in cursor.fetchall()]
 
 
-def get_products(conn) -> list[Product]:
+def get_products(conn):
     query = "SELECT * FROM m_danil_product;"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -126,7 +128,7 @@ def complete_transactions(conn):
     conn.commit()
 
 
-def get_transactions(conn) -> list[Transaction]:
+def get_transactions(conn):
     query = "SELECT * FROM m_danil_transaction;"
     cursor = conn.cursor()
     cursor.execute(query)

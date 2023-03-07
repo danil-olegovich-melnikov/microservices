@@ -6,8 +6,13 @@ from db.sql_queries import update_transactions
 
 tables.create(conn)
 
+
+def service2():
+    update_transactions(conn)
+
+
 if __name__ == '__main__':
     while True:
-        update_transactions(conn)
+        service2()
         print("updated")
         time.sleep(20)
