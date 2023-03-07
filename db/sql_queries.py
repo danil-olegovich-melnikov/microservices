@@ -1,11 +1,9 @@
 import random
 import uuid
-
-from conn import conn
-from db_classes import Transaction, Product, User
+from db.db_classes import Transaction, Product, User
 
 
-def create_table_transaction():
+def create_table_transaction(conn):
     query = """
     CREATE TABLE IF NOT EXISTS m_danil_transaction (
         id SERIAL PRIMARY KEY,
@@ -24,7 +22,7 @@ def create_table_transaction():
     conn.commit()
 
 
-def create_table_product():
+def create_table_product(conn):
     query = """
     CREATE TABLE IF NOT EXISTS m_danil_product (
         id SERIAL PRIMARY KEY,
@@ -38,7 +36,7 @@ def create_table_product():
     conn.commit()
 
 
-def create_table_user():
+def create_table_user(conn):
     query = """
     CREATE TABLE IF NOT EXISTS m_danil_user (
         id SERIAL PRIMARY KEY,
@@ -53,7 +51,7 @@ def create_table_user():
     conn.commit()
 
 
-def insert_users():
+def insert_users(conn):
     for _ in range(100):
         query = """
         INSERT INTO m_danil_user (username, password, email)
@@ -66,7 +64,7 @@ def insert_users():
         conn.commit()
 
 
-def insert_products():
+def insert_products(conn):
     for _ in range(100):
         query = """
         INSERT INTO m_danil_product (name, price)
@@ -79,7 +77,7 @@ def insert_products():
         conn.commit()
 
 
-def get_users() -> list[User]:
+def get_users(conn) -> list[User]:
     query = "SELECT * FROM m_danil_user;"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -88,7 +86,7 @@ def get_users() -> list[User]:
             for user in cursor.fetchall()]
 
 
-def get_products() -> list[Product]:
+def get_products(conn) -> list[Product]:
     query = "SELECT * FROM m_danil_product;"
     cursor = conn.cursor()
     cursor.execute(query)
@@ -97,7 +95,7 @@ def get_products() -> list[Product]:
             for product in cursor.fetchall()]
 
 
-def insert_transaction(transaction: Transaction):
+def insert_transaction(conn, transaction: Transaction):
     query = """
     INSERT INTO m_danil_transaction (description, price, quantity, amount, email)
     VALUES (%s, %s, %s, %s, %s)
@@ -114,27 +112,28 @@ def insert_transaction(transaction: Transaction):
     conn.commit()
 
 
-def update_transactions():
+def update_transactions(conn):
     query = "UPDATE m_danil_transaction SET amount=price*quantity, check_status='sending' WHERE check_status='un_send';"
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
 
-def complete_transactions():
+
+def complete_transactions(conn):
     query = "UPDATE m_danil_transaction SET check_status='sent' WHERE check_status='sending';"
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
 
 
-def get_transactions() -> list[Transaction]:
+def get_transactions(conn) -> list[Transaction]:
     query = "SELECT * FROM m_danil_transaction;"
     cursor = conn.cursor()
     cursor.execute(query)
     return Transaction.list_transactions(cursor.fetchall())
 
 
-def get_sending_transaction():
+def get_sending_transaction(conn):
     query = "SELECT * FROM m_danil_transaction WHERE check_status='sending'"
     cursor = conn.cursor()
     cursor.execute(query)

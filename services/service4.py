@@ -1,15 +1,17 @@
 import time
-import sql_queries
-import tables
 
-tables.create()
+from db import tables
+from db.conn import conn
+from db.sql_queries import get_transactions
+
+tables.create(conn)
 
 
 if __name__ == '__main__':
     while True:
-        transactions = sql_queries.get_transactions()
+        transactions = get_transactions(conn)
         print("-------------------- >>")
         for transaction in transactions:
             print(transaction)
         print("-------------------- <<")
-        time.sleep(10)
+        time.sleep(8)

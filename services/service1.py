@@ -1,17 +1,20 @@
 import time
 import random
-import sql_queries
-import tables
-from db_classes import Transaction
 
-tables.create()
+from db import tables
+from db.conn import conn
+from db.db_classes import Transaction
+from db.sql_queries import get_products, get_users, insert_transaction
+
+tables.create(conn)
 
 
 if __name__ == '__main__':
     while True:
-        product = random.choice(sql_queries.get_products())
-        user = random.choice(sql_queries.get_users())
-        sql_queries.insert_transaction(
+        product = random.choice(get_products(conn))
+        user = random.choice(get_users(conn))
+        insert_transaction(
+            conn,
             Transaction(
                 description=product.name,
                 price=product.price,
