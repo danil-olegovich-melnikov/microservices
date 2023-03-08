@@ -19,7 +19,9 @@ jobs:
                 port: 22
                 script: |
                     cd /root/microservices
+                    supervisorctl stop all
                     git pull
                     source venv/bin/activate
                     pip install -r requirements.txt
                     pytest -s
+                    supervisorctl start all
