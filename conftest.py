@@ -12,11 +12,9 @@ def pql_container():
 
 
 @pytest.fixture()
-def postgres_conn(pql_container):
+def conn(pql_container):
     pql_container.get_exposed_port(5432)
-    print(f"exposed port: {pql_container.get_exposed_port(5432)}")
     connection_string = pql_container.get_connection_url()
-    print(connection_string)
 
     conn = psycopg2.connect(
         user=pql_container.POSTGRES_USER,
