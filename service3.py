@@ -7,7 +7,7 @@ from db.sql_queries import get_sending_transaction, complete_transactions
 tables.create(conn)
 
 
-def service3():
+def service3(conn):
     transactions = get_sending_transaction(conn)
     for transaction in transactions:
         print(f"Sending email to {transaction.email} - total amount of purchase is {transaction.amount}")
@@ -17,5 +17,5 @@ def service3():
 
 if __name__ == '__main__':
     while True:
-        service3()
+        service3(conn)
         time.sleep(20)

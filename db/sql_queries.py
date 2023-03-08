@@ -34,7 +34,8 @@ def create_table_product(conn):
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
-    insert_products(conn)
+    if len(get_products(conn)) == 0:
+        insert_products(conn)
 
 
 def create_table_user(conn):
@@ -50,7 +51,8 @@ def create_table_user(conn):
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
-    insert_users(conn)
+    if len(get_users(conn)) == 0:
+        insert_users(conn)
 
 
 def insert_users(conn):
